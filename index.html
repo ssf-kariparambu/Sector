@@ -24,10 +24,7 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>പ്രധാന ടെക്സ്റ്റ് (സാർവജനികമായി കാണിക്കുന്നു)</h1>
-    <div class="notice">ആ വെബ് പേജിൽ ഇത് മാത്രമേ ആദ്യം കാണൂ — മറ്റു സെക്ഷനുകൾ QR സ്കാൻ ചെയ്തു വരുന്ന പ്രത്യേക ലിങ്കുകൾ വഴി മാത്രമെ കാണാൻ കഴിയൂ.</div>
-  </header>  <main>
+
     <!-- Hidden sections. Each has a data-token attribute. --><div id="section-list">
   <!-- Ten example sections. Change titles/content as needed. -->
   <div class="section" data-token="t-0a1b2c3d" id="sec-1">
@@ -82,16 +79,7 @@
 
 </div>
 
-<div class="admin">
-  <strong>QR ലിങ്കുകൾ ഉണ്ടാക്കാൻ (അഡ്‌മിൻ ടൂൾ)</strong>
-  <p style="margin:8px 0 6px 0">താഴെയുള്ള പട്ടികയിൽ ഓരോ സെക്ഷനും വേണ്ടി തത്സമയത്തിൽ നിങൾക്ക് ഉപയോഗിക്കാൻ കഴിയുന്ന ലിങ്കുകൾ ഉണ്ടാക്കാം — ഈ ലിങ്കുകൾ ഉപയോഗിച്ച് QR കോഡുകൾ ജനറേറ്റ് ചെയ്യാം.</p>
-  <div class="token-links" id="tokenArea"></div>
-  <p style="margin-top:10px;font-size:13px;color:#444">പ്രവർത്തന രീതി: ഓരോ സെക്ഷനിനും <code>?token=...</code> എന്ന് URL-ൽ ചേർത്താൽ ആ സെക്ഷൻ മാത്രം തുറക്കും. ഈ ഫയൽ സർവറിൽ ഹോസ്റ്റ് ചെയ്താൽ QR-ൽ ആ ലിങ്ക് എൻകോഡ് ചെയ്യുക.</p>
-</div>
-
-  </main>  <footer>
-    <div>ഉപദേശം: ഇതു ക്ലയന്റ്-സൈഡ് בלבד — കൂടുതൽ സുരക്ഷയ്ക്ക് ടോക്കൺ വേറൊരു സർവർ-സൈഡ് വെരിഫിക്കേഷൻ ഉണ്ടായിരിക്കണം.</div>
-  </footer>  <script>
+  <script>
     (function(){
       // Build token link buttons for admin to copy
       const base = window.location.origin + window.location.pathname;

@@ -1,145 +1,75 @@
 <!doctype html>
-
 <html lang="ml">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Single Text with QR‑Protected Sections</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>QR Protected Section</title>
   <style>
-    :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans','Helvetica Neue',Arial}
-    body{max-width:820px;margin:36px auto;padding:20px;line-height:1.5;color:#111}
-    header{border-bottom:1px solid #eee;padding-bottom:12px;margin-bottom:18px}
-    h1{font-size:20px;margin:0}
-    .notice{font-size:14px;color:#555;margin-top:8px}
-    .section{border:1px dashed #ddd;padding:14px;border-radius:8px;margin:12px 0;display:none}
-    .section.visible{display:block}
-    .meta{font-size:12px;color:#666;margin-bottom:8px}
-    .token-links{display:flex;gap:8px;flex-wrap:wrap}
-    .token-links input{font-family:monospace;padding:6px;border-radius:6px;border:1px solid #ccc}
-    .btn{padding:8px 10px;border-radius:6px;border:0;cursor:pointer}
-    .btn-copy{background:#0b6ef6;color:white}
-    .admin{margin-top:22px;padding:12px;background:#fafafa;border-radius:8px;border:1px solid #eee}
-    footer{font-size:13px;color:#666;margin-top:22px}
-    code{background:#f4f6fb;padding:2px 6px;border-radius:4px}
+    body {
+      font-family: system-ui, Roboto, "Noto Sans", Arial;
+      color: #111;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+    .section {
+      display: none;
+      border: 2px solid #222;
+      border-radius: 12px;
+      padding: 24px;
+      background: #fafafa;
+      box-shadow: 0 0 10px #ddd;
+    }
+    .section.visible {
+      display: block;
+    }
+    h2 {
+      margin-top: 0;
+      color: #000;
+    }
   </style>
 </head>
 <body>
-
-    <!-- Hidden sections. Each has a data-token attribute. --><div id="section-list">
-  <!-- Ten example sections. Change titles/content as needed. -->
-  <div class="section" data-token="t-0a1b2c3d" id="sec-1">
-    <div class="meta">Section 1 — visible only with its QR/link</div>
-    <div class="content">Section 1 ഉള്ളടക്കം — ഇവിടെ നിങ്ങൾ ഇഷ്ടാനുസരിച്ച് എഴുതി വയ്ക്കാം.</div>
-  </div>
-
-  <div class="section" data-token="t-1f2e3d4c" id="sec-2">
-    <div class="meta">Section 2 — visible only with its QR/link</div>
-    <div class="content">Section 2 ഉള്ളടക്കം — ഉദാഹരണത്തിന് ഫയൽ ഡൗൺലോഡ് ലിങ്ക്, ചിത്രം എന്നിവ.</div>
-  </div>
-
-  <div class="section" data-token="t-2a9b8c7d" id="sec-3">
-    <div class="meta">Section 3 — visible only with its QR/link</div>
-    <div class="content">Section 3 ഉള്ളടക്കം.</div>
-  </div>
-
-  <div class="section" data-token="t-3c4d5e6f" id="sec-4">
-    <div class="meta">Section 4 — visible only with its QR/link</div>
-    <div class="content">Section 4 ഉള്ളടക്കം.</div>
-  </div>
-
-  <div class="section" data-token="t-4f5e6d7c" id="sec-5">
-    <div class="meta">Section 5 — visible only with its QR/link</div>
-    <div class="content">Section 5 ഉള്ളടക്കം.</div>
-  </div>
-
-  <div class="section" data-token="t-5a6b7c8d" id="sec-6">
-    <div class="meta">Section 6 — visible only with its QR/link</div>
-    <div class="content">Section 6 ഉള്ളടക്കം.</div>
-  </div>
-
-  <div class="section" data-token="t-6b7c8d9e" id="sec-7">
-    <div class="meta">Section 7 — visible only with its QR/link</div>
-    <div class="content">Section 7 ഉള്ളടക്കം.</div>
-  </div>
-
-  <div class="section" data-token="t-7c8d9e0f" id="sec-8">
-    <div class="meta">Section 8 — visible only with its QR/link</div>
-    <div class="content">Section 8 ഉള്ളടക്കം.</div>
-  </div>
-
-  <div class="section" data-token="t-8d9e0f1a" id="sec-9">
-    <div class="meta">Section 9 — visible only with its QR/link</div>
-    <div class="content">Section 9 ഉള്ളടക്കം.</div>
-  </div>
-
-  <div class="section" data-token="t-9e0f1a2b" id="sec-10">
-    <div class="meta">Section 10 — visible only with its QR/link</div>
-    <div class="content">Section 10 ഉള്ളടക്കം.</div>
-  </div>
-
-</div>
+  <main id="content"></main>
 
   <script>
-    (function(){
-      // Build token link buttons for admin to copy
-      const base = window.location.origin + window.location.pathname;
-      const sections = Array.from(document.querySelectorAll('.section'));
-      const tokenArea = document.getElementById('tokenArea');
+    const sections = [
+      {token:"t-0a1b2c3d", title:"Section 1", text:"ഇത് സെക്ഷൻ 1 ആണ്"},
+      {token:"t-1f2e3d4c", title:"Section 2", text:"ഇത് സെക്ഷൻ 2 ആണ്"},
+      {token:"t-2a9b8c7d", title:"Section 3", text:"ഇത് സെക്ഷൻ 3 ആണ്"},
+      {token:"t-3c4d5e6f", title:"Section 4", text:"ഇത് സെക്ഷൻ 4 ആണ്"},
+      {token:"t-4f5e6d7c", title:"Section 5", text:"ഇത് സെക്ഷൻ 5 ആണ്"},
+      {token:"t-5a6b7c8d", title:"Section 6", text:"ഇത് സെക്ഷൻ 6 ആണ്"},
+      {token:"t-6b7c8d9e", title:"Section 7", text:"ഇത് സെക്ഷൻ 7 ആണ്"},
+      {token:"t-7c8d9e0f", title:"Section 8", text:"ഇത് സെക്ഷൻ 8 ആണ്"},
+      {token:"t-8d9e0f1a", title:"Section 9", text:"ഇത് സെക്ഷൻ 9 ആണ്"},
+      {token:"t-9e0f1a2b", title:"Section 10", text:"ഇത് സെക്ഷൻ 10 ആണ്"}
+    ];
 
-      sections.forEach((sec, i)=>{
-        const token = sec.dataset.token;
-        const label = sec.querySelector('.meta')?.textContent || ('Section '+(i+1));
-        const link = base + '?token=' + encodeURIComponent(token);
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    const s = params.get("s");
+    const content = document.getElementById("content");
 
-        const container = document.createElement('div');
-        container.style.display='flex'; container.style.alignItems='center'; container.style.gap='8px';
+    let found = null;
+    if (token) {
+      found = sections.find(x => x.token === token);
+    } else if (s) {
+      const idx = parseInt(s, 10);
+      if (idx >= 1 && idx <= sections.length) found = sections[idx - 1];
+    }
 
-        const inp = document.createElement('input');
-        inp.type='text'; inp.readOnly=true; inp.value = link; inp.size = 40;
-
-        const btn = document.createElement('button');
-        btn.className='btn btn-copy'; btn.textContent='Copy';
-        btn.addEventListener('click', ()=>{ navigator.clipboard.writeText(link).then(()=>{ btn.textContent='Copied'; setTimeout(()=>btn.textContent='Copy',1200); }).catch(()=>{ alert('Copy failed — use manual selection.'); }); });
-
-        const lbl = document.createElement('div'); lbl.style.fontSize='13px'; lbl.style.color='#333'; lbl.textContent = label;
-
-        container.appendChild(lbl);
-        container.appendChild(inp);
-        container.appendChild(btn);
-        tokenArea.appendChild(container);
-      });
-
-      // Reveal logic: read ?token= or hash s= index
-      function revealFromURL(){
-        const params = new URLSearchParams(location.search);
-        const token = params.get('token');
-        if(token){
-          const match = sections.find(s => s.dataset.token === token);
-          if(match){ match.classList.add('visible'); window.scrollTo({top: match.offsetTop-20, behavior:'smooth'}); return true; }
-        }
-        // optional: support ?s=3 (1-based index)
-        const sindex = params.get('s');
-        if(sindex){ const idx = parseInt(sindex,10)-1; if(!isNaN(idx) && sections[idx]){ sections[idx].classList.add('visible'); window.scrollTo({top: sections[idx].offsetTop-20, behavior:'smooth'}); return true; }}
-        return false;
-      }
-
-      // Immediately hide all sections except matched one
-      sections.forEach(s=>s.classList.remove('visible'));
-      revealFromURL();
-
-      // If user scans QR that opens the page later, allow manual token entry
-      // small unobtrusive prompt
-      const urlParams = new URLSearchParams(location.search);
-      if(!urlParams.has('token') && !urlParams.has('s')){
-        const mini = document.createElement('div');
-        mini.style.marginTop='14px'; mini.style.padding='10px'; mini.style.borderTop='1px dashed #eee'; mini.style.fontSize='13px';
-        mini.innerHTML = `എന്തെങ്കിലും സെക്ഷൻ കാണാൻ <code>?token=...</code> എന്നോ <code>?s=1</code> (1-10) എന്നോ രൂപത്തിൽ ലിങ്ക് ഉപയോഗിക്കല്ലോ. അല്ലെങ്കിൽ അഡ്മിൻ ഉപയോഗിച്ച് നിങ്ങളുടെ സെക്ഷൻ ലിങ്ക് കോപ്പി ചെയ്യുക.`;
-        document.querySelector('main').appendChild(mini);
-      }
-
-      // Prevent search engines from indexing token links (basic)
-      // For more security add server-side verification and single-use tokens
-
-    })();
-  </script></body>
+    if (found) {
+      const div = document.createElement("div");
+      div.className = "section visible";
+      div.innerHTML = `<h2>${found.title}</h2><p>${found.text}</p>`;
+      content.appendChild(div);
+      document.title = found.title + " | QR Protected";
+    } else {
+      // No content shown at all
+      document.body.innerHTML = "";
+    }
+  </script>
+</body>
 </html>
